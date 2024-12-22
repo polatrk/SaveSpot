@@ -1,0 +1,4 @@
+name: SaveSpot
+version: '1.0-SNAPSHOT'
+main: polatrk.saveSpot.SaveSpot
+api-version: '1.21'
