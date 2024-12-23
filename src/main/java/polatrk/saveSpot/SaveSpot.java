@@ -53,7 +53,7 @@ public final class SaveSpot extends JavaPlugin {
 
         // FOR DEBUG
         if(strings.length > 0) {
-            if(strings[0].equals("show"))
+            if(strings[0].equals("show")) {
                 for(CoordInfo info : savedSpots) {
                     getServer().broadcastMessage("---------------------------------");
                     getServer().broadcastMessage(info.spotName);
@@ -62,11 +62,13 @@ public final class SaveSpot extends JavaPlugin {
                     getServer().broadcastMessage(info.playerUUID.toString());
                     getServer().broadcastMessage("---------------------------------");
                 }
-            return true;
+                return true;
+            }
+
         }
 
         if(!isNomenclatureCorrect(strings)) {
-            player.sendMessage(ChatColor.DARK_RED + "Usage: /savespot <save|remove|modify> <private|public> <name>");
+            player.sendMessage(ChatColor.RED + "Usage: /savespot <save|remove> <private|public> <name>");
             return true;
         }
 
@@ -80,21 +82,51 @@ public final class SaveSpot extends JavaPlugin {
         );
         CoordInfo newCoordInfo = new CoordInfo(playerUUID, isPublic, spotName, coords);
 
+        player.sendMessage(strings[0] + "/" + spotName);
+
+        if(strings[0].equals("save"))
+            saveNewSpot(newCoordInfo, player);
+        else
+            deleteSpot(newCoordInfo, player);
+
+        return true;
+    }
+
+    private void deleteSpot(CoordInfo newCoordInfo, Player player) {
+        Iterator<CoordInfo> iterator = savedSpots.iterator();
+        while (iterator.hasNext()) {
+            CoordInfo info = iterator.next();
+            if (info.isPublic == newCoordInfo.isPublic &&
+                info.spotName.equals(newCoordInfo.spotName) &&
+                info.playerUUID.equals(player.getUniqueId())) {
+
+                iterator.remove();
+                player.sendMessage(ChatColor.GREEN + "Spot successfully removed.");
+                return;
+            }
+        }
+
+        player.sendMessage(ChatColor.RED + "Spot doesn't exist with specified properties or you don't own it.");
+    }
+
+
+    private void saveNewSpot(CoordInfo newCoordInfo, Player player) {
         if(isDuplicate(newCoordInfo, player)) {
-            player.sendMessage(ChatColor.DARK_RED + "Spot name already exist in " + strings[1] + " context.");
-            return true;
+            String privacyContext = newCoordInfo.isPublic ? "public" : "private";
+            player.sendMessage(ChatColor.RED + "Spot name already exist in " + privacyContext + " context.");
+            return;
         }
 
         savedSpots.add(newCoordInfo);
-
-        return true;
+        player.sendMessage(ChatColor.GREEN + "Spot successfully saved.");
     }
 
     private boolean isDuplicate(CoordInfo newCoordInfo, Player player) {
         for(CoordInfo info : savedSpots) {
             if(newCoordInfo.isPublic) {
-                if(info.spotName.equals(newCoordInfo.spotName))
-                    return true;
+                if(info.isPublic)
+                    if(info.spotName.equals(newCoordInfo.spotName))
+                        return true;
             }
             else { // if newCoordInfo is private
                 if(!info.isPublic)
@@ -111,7 +143,7 @@ public final class SaveSpot extends JavaPlugin {
         if(strings.length < 3)
             return false;
 
-        Set<String> validActions = Set.of("save", "remove", "modify");
+        Set<String> validActions = Set.of("save", "remove");
         Set<String> validVisibility = Set.of("public", "private");
 
         return validActions.contains(strings[0]) && validVisibility.contains(strings[1]);

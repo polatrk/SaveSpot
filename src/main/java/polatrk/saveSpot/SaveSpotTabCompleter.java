@@ -13,7 +13,7 @@ public class SaveSpotTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("save", "remove", "modify");
+            return Arrays.asList("save", "remove");
         }
 
         if (args.length == 2) {
