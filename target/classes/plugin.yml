@@ -1,4 +1,8 @@
 name: SaveSpot
 version: '1.0-SNAPSHOT'
 main: polatrk.saveSpot.SaveSpot
-api-version: '1.21'
+api-version: '1.19'
+commands:
+  savespot:
+    description: Save your coordinates to retrieve them when you need
+    usage: /savespot
