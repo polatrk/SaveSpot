@@ -10,7 +10,7 @@ public class CoordInfo implements Serializable {
     public String spotName;
     public Vector3 coords;
 
-    static class Vector3 implements Serializable {
+    public static class Vector3 implements Serializable {
         public int x;
         public int y;
         public int z;
