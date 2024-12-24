@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public final class SaveSpot extends JavaPlugin {
 
     public ArrayList<CoordInfo> savedSpots = new ArrayList<>();
-
+    private SaveSpotCommandHandler commandHandler;
     @Override
     public void onEnable() {
         loadSavedSpots();
-        SaveSpotCommandHandler commandHandler = new SaveSpotCommandHandler(this);
+        commandHandler = new SaveSpotCommandHandler(this);
         getCommand("savespot").setExecutor(commandHandler);
         getCommand("savespot").setTabCompleter(new SaveSpotTabCompleter());
     }
@@ -22,6 +22,10 @@ public final class SaveSpot extends JavaPlugin {
     @Override
     public void onDisable() {
         saveSavedSpots();
+
+        Bukkit.getScheduler().cancelTasks(this);
+
+        commandHandler.removeAllActiveBossBars();
     }
 
     private void loadSavedSpots() {
