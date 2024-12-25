@@ -6,17 +6,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public final class SaveSpot extends JavaPlugin {
 
     public ArrayList<CoordInfo> savedSpots = new ArrayList<>();
     private SaveSpotCommandHandler commandHandler;
+    private final List<String> validActions = new ArrayList<>(Arrays.asList("remove", "cancel", "save", "goto", "show"));
+
     @Override
     public void onEnable() {
         loadSavedSpots();
         commandHandler = new SaveSpotCommandHandler(this);
         getCommand("savespot").setExecutor(commandHandler);
-        getCommand("savespot").setTabCompleter(new SaveSpotTabCompleter());
+        getCommand("savespot").setTabCompleter(new SaveSpotTabCompleter(this));
     }
 
     @Override
@@ -26,6 +31,10 @@ public final class SaveSpot extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
 
         commandHandler.removeAllActiveBossBars();
+    }
+
+    public List<String> getValidActions() {
+        return validActions;
     }
 
     private void loadSavedSpots() {

@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import polatrk.saveSpot.CoordInfo;
 import polatrk.saveSpot.CoordUtils;
+import polatrk.saveSpot.GlobalUtils;
 import polatrk.saveSpot.SaveSpot;
 
 public class SaveCommand extends BaseCommand{
@@ -14,12 +15,16 @@ public class SaveCommand extends BaseCommand{
 
     public void execute(Player player, String[] args) {
         CoordInfo newCoordInfo = CoordUtils.generateCoordInfo(args, player);
+        String privacy = newCoordInfo.isPublic ? "public" : "private";
         if (CoordUtils.isDuplicate(plugin.savedSpots, newCoordInfo)) {
-            String privacy = newCoordInfo.isPublic ? "public" : "private";
-            player.sendMessage(ChatColor.RED + "Spot name already exists in " + privacy + " context.");
+            GlobalUtils.sendSaveSpotMessage(
+                    player,
+                    ChatColor.RED + "Spot name already exists in " + privacy + " context."
+            );
+
         } else {
             plugin.savedSpots.add(newCoordInfo);
-            player.sendMessage(ChatColor.GREEN + "Spot successfully saved.");
+            GlobalUtils.sendSaveSpotMessage(player, ChatColor.GREEN + privacy + " spot saved.");
         }
     }
 }

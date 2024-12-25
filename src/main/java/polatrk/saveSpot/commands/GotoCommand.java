@@ -22,12 +22,15 @@ public class GotoCommand extends BaseCommand {
 
     @Override
     public void execute(Player player, String[] args) {
+        commandHandler.cancelGotoForPlayer(player);
+
         BossBar bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
-        commandHandler.addActiveBossBars(bossBar);
+        commandHandler.addActiveBossBar(player, bossBar);
         CoordInfo info = commandHandler.getSpotByNameAndPrivacy(args[1].equals("public"), args[2]);
 
         if(info == null) {
-            player.sendMessage(ChatColor.RED + "No matching spots found.");
+            GlobalUtils.sendSaveSpotMessage(player, ChatColor.RED + "No matching spots found.");
+            return;
         }
 
         bossBar.addPlayer(player);
@@ -35,6 +38,8 @@ public class GotoCommand extends BaseCommand {
         PlayerTrackingTask task = new PlayerTrackingTask(info, player, bossBar);
         int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, task, 0L, 10L);
         task.setTaskId(taskId);
+
+        commandHandler.addActiveTask(player, taskId);
     }
 }
 
