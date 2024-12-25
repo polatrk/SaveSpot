@@ -34,7 +34,7 @@ public class SaveSpotCommandHandler implements CommandExecutor {
         if (!isNomenclatureCorrect(args)) {
             GlobalUtils.sendSaveSpotMessage(
                 player,
-                ChatColor.RED + "Usage: /savespot <cancel | goto | show | save | remove> <private | public> <name>"
+                ChatColor.RED + "Usage: /savespot <remove | cancel | save | goto | show> <private | public> <name>"
             );
             return true;
         }
