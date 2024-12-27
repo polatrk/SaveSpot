@@ -33,6 +33,11 @@ public class GotoCommand extends BaseCommand {
             return;
         }
 
+        if(!info.dimension.equals(player.getWorld().getEnvironment())) {
+            GlobalUtils.sendSaveSpotMessage(player, ChatColor.RED + "Spot found in another dimension.");
+            return;
+        }
+
         bossBar.addPlayer(player);
 
         PlayerTrackingTask task = new PlayerTrackingTask(info, player, bossBar);

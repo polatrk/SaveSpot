@@ -14,7 +14,7 @@ public class CoordUtils {
                 player.getLocation().getBlockY(),
                 player.getLocation().getBlockZ()
         );
-        return new CoordInfo(player.getUniqueId(), isPublic, spotName, coords);
+        return new CoordInfo(player.getUniqueId(), isPublic, spotName, coords, player.getWorld().getEnvironment());
     }
 
     public static boolean isDuplicate(List<CoordInfo> savedSpots, CoordInfo target) {

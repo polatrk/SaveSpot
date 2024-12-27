@@ -3,6 +3,6 @@ version: '1.0-SNAPSHOT'
 main: polatrk.saveSpot.SaveSpot
 api-version: '1.19'
 commands:
-  savespot:
-    description: Save your coordinates to retrieve them when you need
-    usage: /savespot
+  spot:
+    description: "Usage: /spot <remove | cancel | save | goto | show> <private | public> <name>"
+    usage: /spot

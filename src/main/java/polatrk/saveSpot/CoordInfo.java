@@ -1,5 +1,7 @@
 package polatrk.saveSpot;
 
+import org.bukkit.World;
+
 import javax.naming.spi.DirStateFactory;
 import java.io.Serializable;
 import java.util.UUID;
@@ -10,6 +12,7 @@ public class CoordInfo implements Serializable {
     public boolean isPublic;
     public String spotName;
     public Vector3 coords;
+    public World.Environment dimension;
 
     public static class Vector3 implements Serializable {
         public int x;
@@ -31,10 +34,11 @@ public class CoordInfo implements Serializable {
         }
     }
 
-    public CoordInfo(UUID playerUUID, boolean isPublic, String spotName, Vector3 coords) {
+    public CoordInfo(UUID playerUUID, boolean isPublic, String spotName, Vector3 coords, World.Environment dimension) {
         this.playerUUID = playerUUID;
         this.isPublic = isPublic;
         this.spotName = spotName;
         this.coords = coords;
+        this.dimension = dimension;
     }
 }

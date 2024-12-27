@@ -20,8 +20,8 @@ public final class SaveSpot extends JavaPlugin {
     public void onEnable() {
         loadSavedSpots();
         commandHandler = new SaveSpotCommandHandler(this);
-        getCommand("savespot").setExecutor(commandHandler);
-        getCommand("savespot").setTabCompleter(new SaveSpotTabCompleter(this));
+        getCommand("spot").setExecutor(commandHandler);
+        getCommand("spot").setTabCompleter(new SaveSpotTabCompleter(this));
     }
 
     @Override
