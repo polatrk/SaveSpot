@@ -29,7 +29,7 @@ public class GotoCommand extends BaseCommand {
         CoordInfo info = commandHandler.getSpotByNameAndPrivacy(args[1].equals("public"), args[2]);
 
         if(info == null) {
-            GlobalUtils.sendSaveSpotMessage(player, ChatColor.RED + "No matching spots found.");
+            GlobalUtils.sendSaveSpotMessage(player, ChatColor.RED + "No matching spot found.");
             return;
         }
 
