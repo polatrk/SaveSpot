@@ -28,6 +28,13 @@ public final class SaveSpot extends JavaPlugin {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
 
+        try (FileOutputStream fileOut = new FileOutputStream("savedSpots.dat");
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(savedSpots);
+        } catch (Exception e) {
+            Bukkit.getLogger().info("Failed to save savedCoords: " + e);
+        }
+
         commandHandler.removeAllActiveBossBars();
     }
 
