@@ -23,7 +23,7 @@ public class SaveCommand extends BaseCommand{
             );
 
         } else {
-            plugin.savedSpots.add(newCoordInfo);
+            plugin.saveNewSpot(newCoordInfo);
             GlobalUtils.sendSaveSpotMessage(player, ChatColor.GREEN + privacy + " spot saved.");
         }
     }

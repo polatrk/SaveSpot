@@ -26,8 +26,6 @@ public final class SaveSpot extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saveSavedSpots();
-
         Bukkit.getScheduler().cancelTasks(this);
 
         commandHandler.removeAllActiveBossBars();
@@ -47,7 +45,8 @@ public final class SaveSpot extends JavaPlugin {
         }
     }
 
-    private void saveSavedSpots() {
+    public void saveNewSpot(CoordInfo newCoords) {
+        savedSpots.add(newCoords);
         try (FileOutputStream fileOut = new FileOutputStream("savedSpots.dat");
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(savedSpots);
